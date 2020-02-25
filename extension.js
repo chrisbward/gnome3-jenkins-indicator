@@ -14,7 +14,7 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Convenience = Me.imports.lib.convenience;
 const Settings = Me.imports.src.settings;
 const Utils = Me.imports.src.helpers.utils;
-const JenkinsIndicator = Me.imports.src.jenkinsIndicator;
+var JenkinsIndicator = Me.imports.src.jenkinsIndicator;
 
 let _indicators = [];
 let settings, settingsJSON;
@@ -32,10 +32,6 @@ function createIndicator(server_num) {
 }
 
 function init(extensionMeta) {
-	// add include path for icons
-	let theme = imports.gi.Gtk.IconTheme.get_default();
-	theme.append_search_path(extensionMeta.path + "/icons");
-
 	// load localization dictionaries
 	Convenience.initTranslations();
 

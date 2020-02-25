@@ -14,32 +14,28 @@ const Icon = Me.imports.src.helpers.icon;
 /*
  * Source for handling job notifications.
  */
-const JobNotificationSource = new Lang.Class({
-	Name: 'JobNotificationSource',
-	Extends: MessageTray.Source,
-
-	_init: function(title) {
+const JobNotificationSource = class JobNotificationSource extends MessageTray.Source {
+	constructor(title) {
 		// set notification source title
 
-		this.parent(title, 'jenkins_headshot');
+		super(title, 'jenkins_headshot');
 
 		// set notification source icon
 		this._setSummaryIcon(this.createNotificationIcon());
 		
 		// add myself to the message try
 		SessionMessageTray.add(this);
-	},
+	}
 
 	// set jenkins logo for notification source icon
-	createNotificationIcon: function() {
-		return Icon.createNotificationIcon('jenkins_headshot');
-	},
+	createNotificationIcon() {
+		return Icon.createStatusIcon('jenkins_headshot_notify');
+	}
 
 	// gets called when a notification is clicked
-	open: function(notification) {
+	open(notification) {
 		// close the clicked notification
 		notification.destroy();
 	}
-});
-
+};
 

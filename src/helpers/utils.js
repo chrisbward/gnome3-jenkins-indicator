@@ -119,7 +119,7 @@ function jobMatches(job, patterns) {
 }
 
 // returns icons and state ranks for job states
-const jobStates = new function() {
+var jobStates = new function() {
 	// define job states (colors) and their corresponding icon, feel free to add more here
 	// this array is also used to determine the rank of a job state, low array index refers to a high rank
 	// filter refers to the name of the filter setting (whether to show matching jobs or not)

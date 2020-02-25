@@ -21,12 +21,9 @@ const _ = imports.gettext.domain(Me.metadata['gettext-domain']).gettext;
 /*
  * Represent a job in the popup menu with icon and job name.
  */
-const JobPopupMenuItem = new Lang.Class({
-	Name: 'JobPopupMenuItem',
-	Extends: PopupMenu.PopupBaseMenuItem,
-
-	_init: function(parentMenu, job, notification_source, settings, httpSession, params) {
-		this.parent(params);
+const JobPopupMenuItem = class JobPopupMenuItem extends PopupMenu.PopupBaseMenuItem {
+	constructor(parentMenu, job, notification_source, settings, httpSession, params) {
+		super(params);
 		
 		this.parentMenu = parentMenu;
 		this.notification_source = notification_source;
@@ -41,7 +38,7 @@ const JobPopupMenuItem = new Lang.Class({
 		// button used to trigger the job
 		this.icon_build = Icon.createStatusIcon('jenkins_clock');
 
-		this.button_build = new St.Button({ child: this.icon_build });
+		this.button_build = new St.Button({ child: this.icon_build , x_align: St.Align.END});
 		
 		this.button_build.connect("clicked", Lang.bind(this, function(){
 			// request to trigger the build
@@ -72,6 +69,7 @@ const JobPopupMenuItem = new Lang.Class({
 
 		this.box.add(this.icon);
 		this.box.add(this.label);
+		this.box.add(new St.Icon({ icon_name: "jenkins_clock", icon_size : 16}));
 
 		// For Gnome 3.8 and below
 		if( typeof this.addActor != 'undefined' ) {
@@ -93,20 +91,20 @@ const JobPopupMenuItem = new Lang.Class({
 		this.connect("activate", Lang.bind(this, function(){
 			Gio.app_info_launch_default_for_uri(this.getJobUrl(), global.create_app_launch_context(0, -1));
 		}));
-	},
+	}
 
 	// return job name
-	getJobName: function() {
+	getJobName() {
 		return this.label.text;
-	},
+	}
 
 	// return job url
-	getJobUrl: function() {
+	getJobUrl() {
 		return this.jobUrl;
-	},
+	}
 
 	// update menu item text and icon
-	updateJob: function(job) {
+	updateJob(job) {
 		// notification for finished job if job icon used to be clock (if enabled in settings)
 		if( this.settings.notification_finished_jobs && this.icon.icon_name=='jenkins_clock' && Utils.jobStates.getIcon(job.color, this.settings.green_balls_plugin)!='jenkins_clock' )	{
 
@@ -132,11 +130,11 @@ const JobPopupMenuItem = new Lang.Class({
 		
 		this.label.text = job.name;
 		this.icon.icon_name = Utils.jobStates.getIcon(job.color, this.settings.green_balls_plugin);
-	},
+	}
 	
 	// update settings
-	updateSettings: function(settings) {
+	updateSettings(settings) {
 		this.settings = settings;
 	}
-});
+};
 

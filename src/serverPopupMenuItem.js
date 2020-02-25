@@ -14,12 +14,9 @@ const Icon = Me.imports.src.helpers.icon;
 /*
  * Server name and link in the popup menu.
  */
-const ServerPopupMenuItem = new Lang.Class({
-	Name: 'ServerPopupMenuItem',
-	Extends: PopupMenu.PopupBaseMenuItem,
-
-	_init: function(settings, params) {
-		this.parent(params);
+const ServerPopupMenuItem = class ServerPopupMenuItem extends PopupMenu.PopupBaseMenuItem {
+	constructor(settings, params) {
+		super(params);
 		
 		this.settings = settings;
 		
@@ -43,11 +40,11 @@ const ServerPopupMenuItem = new Lang.Class({
 		this.connect("activate", Lang.bind(this, function(){
 			Gio.app_info_launch_default_for_uri(this.settings.jenkins_url, global.create_app_launch_context(0, -1));
 		}));
-	},
+	}
 
 	// update menu item label (server name)
-	updateSettings: function(settings) {
+	updateSettings(settings) {
 		this.settings = settings;
 		this.label.text = this.settings.name;
 	}
-});
+};

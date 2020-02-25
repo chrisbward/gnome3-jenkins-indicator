@@ -9,6 +9,7 @@ const Glib = imports.gi.GLib;
 const Soup = imports.gi.Soup;
 const PopupMenu = imports.ui.popupMenu;
 const PanelMenu = imports.ui.panelMenu;
+const GObject = imports.gi.GObject;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Utils = Me.imports.src.helpers.utils;
@@ -21,12 +22,10 @@ const _ = imports.gettext.domain(Me.metadata['gettext-domain']).gettext;
 /*
  * Represents the indicator in the top menu bar.
  */
-const JenkinsIndicator = new Lang.Class({
-	Name: 'JenkinsIndicator',
-	Extends: PanelMenu.Button,
-
-	_init: function(settings, httpSession) {
-		this.parent(0.25, "Jenkins Indicator", false );
+var JenkinsIndicator = GObject.registerClass(
+class JenkinsIndicator extends PanelMenu.Button {
+	_init(settings, httpSession) {
+		super._init(0.25, 'Jenkins Indicator', false );
 
 		// the number of the server this indicator refers to
 		this.settings = settings;
@@ -53,9 +52,9 @@ const JenkinsIndicator = new Lang.Class({
 
 		// enter main loop for refreshing
 		this._mainloopInit();
-	},
+	}
 
-	_mainloopInit: function() {
+	_mainloopInit() {
 		// create new main loop
 		this._mainloop = Mainloop.timeout_add(this.settings.autorefresh_interval*1000, Lang.bind(this, function(){
 			// request new job states if auto-refresh is enabled
@@ -66,10 +65,10 @@ const JenkinsIndicator = new Lang.Class({
 			// returning true is important for restarting the mainloop after timeout
 			return true;
 		}));
-	},
+	}
 
 	// request local jenkins server for current state
-	request: function() {
+	request() {
 		// only update if no update is currently running
 		if( !this._isRequesting ) {
 			this._isRequesting = true;
@@ -118,10 +117,10 @@ const JenkinsIndicator = new Lang.Class({
 				this._isRequesting = false;
 			}
 		}
-	},
+	}
 
 	// update indicator icon and popupmenu contents
-	update: function() {
+	update() {
 		// filter jobs to be shown
 		let displayJobs = Utils.filterJobs(this.jobs, this.settings);
 
@@ -148,11 +147,11 @@ const JenkinsIndicator = new Lang.Class({
 		}
 
 		// set new overall indicator icon representing current jenkins state
-		this._iconActor.icon_name = Utils.jobStates.getIcon(overallState, this.settings.green_balls_plugin);
-	},
+		this._iconActor.style_class = Utils.jobStates.getIcon(overallState, this.settings.green_balls_plugin);
+	}
 
 	// update settings
-	updateSettings: function(settings) {
+	updateSettings(settings) {
 		this.settings = settings;
 
 		// update server menu item
@@ -163,10 +162,10 @@ const JenkinsIndicator = new Lang.Class({
 		this._mainloopInit();
 
 		this.update();
-	},
+	}
 
 	// displays an error message in the popup menu
-	showError: function(text) {
+	showError(text) {
 		// set default error message if none provided
 		text = text || "unknown error";
 
@@ -177,19 +176,17 @@ const JenkinsIndicator = new Lang.Class({
 		this.menu.jobSection.addMenuItem( new PopupMenu.PopupMenuItem(_("Error") + ": " + text, {style_class: 'error'}) );
 
 		// set indicator state to error
-		this._iconActor.icon_name = Utils.jobStates.getIcon(Utils.jobStates.getErrorState(), this.settings.green_balls_plugin);
-	},
+		this._iconActor.style_class = Utils.jobStates.getIcon(Utils.jobStates.getErrorState(), this.settings.green_balls_plugin);
+	}
 
 	// destroys the indicator
-	destroy: function() {
+	destroy() {
 		// destroy the mainloop used for updating the indicator
 		Mainloop.source_remove(this._mainloop);
 
 		// destroy notification source if used
 		if( this.notification_source )
 			this.notification_source.destroy();
-
-		this.parent();
 	}
 });
 

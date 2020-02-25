@@ -1,31 +1,55 @@
-.icon-grey {
-	background-image: url("icons/grey.png");
+.jenkins_grey {
+	background-image: url("icons/jenkins_grey.svg");
 	width: 16px;
 	height: 16px;
 }
 
-.icon-blue {
-	background-image: url("icons/blue.png");
+.jenkins_green {
+	background-image: url("icons/jenkins_green.svg");
 	width: 16px;
 	height: 16px;
 }
 
-.icon-yellow {
-	background-image: url("icons/yellow.png");
+.jenkins_blue {
+	background-image: url("icons/jenkins_blue.svg");
 	width: 16px;
 	height: 16px;
 }
 
-.icon-red {
-	background-image: url("icons/red.png");
+.jenkins_yellow {
+	background-image: url("icons/jenkins_yellow.svg");
 	width: 16px;
 	height: 16px;
 }
 
-.icon-clock {
-	background-image: url("icons/clock.png");
+.jenkins_red {
+	background-image: url("icons/jenkins_red.svg");
 	width: 16px;
 	height: 16px;
+}
+
+.jenkins_clock {
+	background-image: url("icons/jenkins_clock.svg");
+	width: 16px;
+	height: 16px;
+}
+
+.jenkins_error {
+	background-image: url("icons/jenkins_error.svg");
+	width: 16px;
+	height: 16px;
+}
+
+.jenkins_headshot {
+	background-image: url("icons/jenkins_headshot.svg");
+	width: 16px;
+	height: 16px;
+}
+
+.jenkins_headshot_notify {
+	background-image: url("icons/jenkins_headshot.svg");
+	width: 24px;
+	height: 24px;
 }
 
 .error {

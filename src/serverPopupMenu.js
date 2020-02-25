@@ -21,12 +21,9 @@ const _ = imports.gettext.domain(Me.metadata['gettext-domain']).gettext;
 /*
  * Manages jobs popup menu items.
  */
-const ServerPopupMenu = new Lang.Class({
-	Name: 'ServerPopupMenu',
-	Extends: PopupMenu.PopupMenu,
-
-	_init: function(indicator, sourceActor, arrowAlignment, arrowSide, notification_source, settings, httpSession) {
-		this.parent(sourceActor, arrowAlignment, arrowSide);
+const ServerPopupMenu = class extends PopupMenu.PopupMenu {
+	constructor(indicator, sourceActor, arrowAlignment, arrowSide, notification_source, settings, httpSession) {
+		super(sourceActor, arrowAlignment, arrowSide);
 		
 		this.indicator = indicator;
 		this.notification_source = notification_source;
@@ -66,10 +63,10 @@ const ServerPopupMenu = new Lang.Class({
 			}
 		});
 		this.addMenuItem(this._menu_settings);
-	},
+	}
 
 	// insert, delete and update all job items in popup menu
-	updateJobs: function(new_jobs) {
+	updateJobs(new_jobs) {
 		// provide error message if no jobs were found
 		if( new_jobs.length==0 ) {
 			this.indicator.showError(_("No jobs found"));
@@ -120,10 +117,10 @@ const ServerPopupMenu = new Lang.Class({
 				this.jobSection._getMenuItems()[j].destroy();
 			}
 		}
-	},
+	}
 	
 	// update settings
-	updateSettings: function(settings) {
+	updateSettings(settings) {
 		this.settings = settings;
 
 		this.serverMenuItem.updateSettings(this.settings);
@@ -135,5 +132,5 @@ const ServerPopupMenu = new Lang.Class({
 			}
 		}
 	}
-});
+};
 

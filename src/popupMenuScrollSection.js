@@ -14,12 +14,9 @@ const Utils = Me.imports.src.helpers.utils;
 /*
  * Server name and link in the popup menu.
  */
-const PopupMenuScrollSection = new Lang.Class({
-	Name: 'PopupMenuScrollSection',
-	Extends: PopupMenu.PopupMenuSection,
-
-	_init: function() {
-		this.parent();
+const PopupMenuScrollSection = class PopupMenuScrollSection extends PopupMenu.PopupMenuSection {
+	constructor() {
+		super();
 		
 		this.scrollView = new St.ScrollView({ x_fill: true, y_fill: false, x_align: St.Align.START, y_align: St.Align.START, style_class: 'vfade applications-scrollbox' });
 		this.scrollView.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC);
@@ -30,5 +27,5 @@ const PopupMenuScrollSection = new Lang.Class({
 		this.actor = this.scrollView;
 		this.actor._delegate = this;
 	}
-});
+};
 
